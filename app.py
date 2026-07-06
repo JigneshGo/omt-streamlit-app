@@ -65,11 +65,26 @@ def clean_drug(v):
 
 
 def clean_person(v, first=False):
-    s = clean_text(v)
+    if v is None:
+        return ""
+
+    s = str(v).strip()
+
+    if not s:
+        return ""
+
     s = re.sub(r"\[.*?\]", "", s)
     s = re.sub(r"\S+@\S+", "", s)
     s = re.sub(r"\s+", " ", s).strip()
-    return s.split()[0] if first else s
+
+    if not s:
+        return ""
+
+    if first:
+        parts = s.split()
+        return parts[0] if len(parts) > 0 else ""
+
+    return s
 
 
 def get_type(drug):
